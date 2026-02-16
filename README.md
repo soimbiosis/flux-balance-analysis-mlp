@@ -7,9 +7,9 @@ Genes encode enzymes which catalyze metabolic reactions. This project aims to si
 
 The objective is formulated as max_v {cv} subject to Sv = 0
 
-S is the stoichiometric matrix (rows = metabolites, columns = fluxes)
-v is a vector of fluxes per reaction
-c is a one-hot vector which selects the biomass (growth) reaction from the set of all reactions. (The vector is all 0s except at the biomass reaction, where it is 1).
+* S is the stoichiometric matrix (rows = metabolites, columns = fluxes)
+* v is a vector of fluxes per reaction
+* c is a one-hot vector which selects the biomass (growth) reaction from the set of all reactions. (The vector is all 0s except at the biomass reaction, where it is 1).
 
 What this means is that we want to find the complete set of fluxes which maximizes the growth (via the biomass flux) subject to Sv=0, which is a biological feasibility constraint.
 
@@ -31,20 +31,20 @@ There are 2 Jupyter Notebooks included in this repository. The first, 'basic_fba
 
 ## Experimental Setup
 
-* Baseline: Ridge regression (linear regression with L2 regularization) from scikit-learn was used as a baseline.
+* **Baseline:** Ridge regression (linear regression with L2 regularization) from scikit-learn was used as a baseline.
 
-* Model: A simple 3-layer MLP with 256 neurons per layer is used. This allowed for training without overfitting, indicating that it had sufficient capacity.
+* **Model:** A simple 3-layer MLP with 256 neurons per layer is used. This allowed for training without overfitting, indicating that it had sufficient capacity.
 
-* Loss: An MSE between ground truth fluxes and predicted fluxes (standardized as described in the data section) was first optimized. Once it was demonstrated that training could progress successfully, a constraint loss was added (see next point)
+* **Loss:** An MSE between ground truth fluxes and predicted fluxes (standardized as described in the data section) was first optimized. Once it was demonstrated that training could progress successfully, a constraint loss was added (see next point)
 
-* Constraint loss: We are aiming to satisfy the constraint Sv=0 in the problem formulation, so we add a penalty term equivalent to the L2 norm of Sv', where v' is the predicted flux vector. Note that in order to compute this, we first un-normalize the predicted outputs so they are in the original flux range.
+* **Constraint loss:** We are aiming to satisfy the constraint Sv=0 in the problem formulation, so we add a penalty term equivalent to the L2 norm of Sv', where v' is the predicted flux vector. Note that in order to compute this, we first un-normalize the predicted outputs so they are in the original flux range.
 
-* Metrics: We choose 5 metrics to evaluate progress:
-    * MSE loss: This is the easiest way to determine whether the model generalizes
-    * RMSE: This tells us how many std deviations from the ground truth our predictions are on average. Because we standardized the output space to have a std dev of 1 and mean of 0, we can interpret RMSE in terms of std dev of the original data.
-    * L2 Norm of Sv: Monitoring this gives us an idea of whether the model is producing feasible solutions (closer to 0 is better!)
-    * Cosine similarity: The predicted fluxes may be more similar to the ground truth for some reactions - the error is not uniform across reactions. This gives us a more fine-grained view of how good per-reaction alignment is.
-    * Biomass MSE: Compares the ground truth biomass flux/growht to the prediction. This tells us whether our predictions correctly model the relationship of gene knockouts to organism growth, which is often a main quantity of interest.
+* **Metrics:** We choose 5 metrics to evaluate progress:
+    * **MSE loss:** This is the easiest way to determine whether the model generalizes
+    * **RMSE:** This tells us how many std deviations from the ground truth our predictions are on average. Because we standardized the output space to have a std dev of 1 and mean of 0, we can interpret RMSE in terms of std dev of the original data.
+    * **L2 Norm of Sv:** Monitoring this gives us an idea of whether the model is producing feasible solutions (closer to 0 is better!)
+    * **Cosine similarity:** The predicted fluxes may be more similar to the ground truth for some reactions - the error is not uniform across reactions. This gives us a more fine-grained view of how good per-reaction alignment is.
+    * **Biomass MSE:** Compares the ground truth biomass flux/growht to the prediction. This tells us whether our predictions correctly model the relationship of gene knockouts to organism growth, which is often a main quantity of interest.
 
 
 ## Results
@@ -53,6 +53,7 @@ There are 2 Jupyter Notebooks included in this repository. The first, 'basic_fba
 * Baseline #2: Mean train set fluxes. These are compared to eval set ground truth fluxes.
 
 Figure 1. Metrics Comparison
+
 | Method           | MSE   | RMSE  | ||Sv||    | Cosine similarity | Biomass MSE|
 |------------------|-------|-------|-----------|-------------------|------------|
 | Dumb baseline    | 2.378 | 1.542 | 2.050e-12 | 0.169             | 0.107      |
