@@ -54,7 +54,7 @@ There are 2 Jupyter Notebooks included in this repository. The first, 'basic_fba
 
 Figure 1. Metrics Comparison
 
-| Method           | MSE   | RMSE  | ||Sv||    | Cosine similarity | Biomass MSE|
+| Method           | MSE   | RMSE  |\|\|Sv\|\| | Cosine similarity | Biomass MSE|
 |------------------|-------|-------|-----------|-------------------|------------|
 | Dumb baseline    | 2.378 | 1.542 | 2.050e-12 | 0.169             | 0.107      |
 | Ridge regression | 2.378 | 1.542 | 2.852e-14 | 0.208             | 0.107      |
