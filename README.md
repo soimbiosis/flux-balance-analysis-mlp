@@ -95,7 +95,7 @@ Figure 6.
 
 Figure 7.
 
-![Figure 7. Std Dev for high cos sim](figures/std_dev_for_hi_cos_sim.png')
+![Figure 7. Std Dev for high cos sim](figures/std_dev_for_hi_cos_sim.png)
 
 
 ## Future Directions
